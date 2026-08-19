@@ -1,23 +1,41 @@
 import { useState } from "react";
 import type { Route } from "./+types/index";
-import type { PostMeta } from "~/types";
+import type { PostMeta, StrapiPost, StrapiResponse } from "~/types";
 import PostCard from "~/components/PostCard";
 import Pagination from "~/components/Pagination";
 import PostFilter from "~/components/PostFilter";
 
 // Using loader to fetch data instead of useEffect
-export async function loader({request}:Route.LoaderArgs):Promise<{posts:PostMeta[]}> {
-    const url = new URL('posts-meta.json', request.url);
-    const res = await fetch(url.href);
+export async function loader({ request }: Route.LoaderArgs): Promise<{ posts: PostMeta[] }> {
+  const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
 
-    if (!res.ok) throw new Error('Failed to fetch data');
+  //console.log("FETCHING FROM:", `${STRAPI_URL}/api/posts`); // check your terminal
 
-    const data = await res.json();
-// Sort by date
-    data.sort((a: PostMeta, b: PostMeta) => {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-    })
-    return {posts: data}
+  const res = await fetch(`${STRAPI_URL}/api/posts?populate=image&sort=date:desc`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) throw new Error(`Strapi failed: ${res.status}`);
+
+  const json: StrapiResponse<StrapiPost> = await res.json();
+  
+  // If this log shows your old markdown titles, your Strapi DB still has markdown data
+  //console.log("STRAPI DATA:", json.data.map((d: any) => d.title));
+
+  const posts = json.data.map((item: any) => {
+    const imgUrl = item.image?.url || item.image?.data?.attributes?.url;
+    return {
+      id: String(item.id),
+      title: item.title,
+      slug: item.slug,
+      excerpt: item.excerpt,
+      date: item.date,
+      body: item.body,
+      image: imgUrl ? `${STRAPI_URL}${imgUrl}` : '/images/no-image.png',
+    };
+  });
+
+  return { posts };
 }
 const BlogPage = ({loaderData}:Route.ComponentProps) => {
     const [searchQuery, setSearchQuery] = useState('')

@@ -1,54 +1,69 @@
 import ReactMarkdown from 'react-markdown';
 import type { Route } from './+types/details';
-import type { PostMeta } from '~/types';
-import { Link } from 'react-router';
+import type { PostMeta, StrapiPost, StrapiResponse } from '~/types';
+import { Link, useLoaderData } from 'react-router';
 
-// Loader
-export async function loader({request, params}:Route.LoaderArgs){
-    const {slug} = params;
+export async function loader({ params }: Route.LoaderArgs) {
+    const { slug } = params;
+    if (!slug) throw new Response('Missing slug', { status: 400 });
 
-    const url = new URL('/posts-meta.json', request.url);
-    const res = await fetch(url.href);
+    const baseUrl = import.meta.env.VITE_STRAPI_URL;
+    const url = `${baseUrl}/api/posts?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=image`;
 
-    if (!res.ok) throw new Error('Failed to fetch data');
+    const res = await fetch(url);
+    if (!res.ok) throw new Response('Failed to fetch post', { status: res.status });
 
-    const index = await res.json();
-    const postMeta = index.find((post: PostMeta) => post.slug === slug);
+    const json: StrapiResponse<StrapiPost> = await res.json();
+    if (!json.data.length) throw new Response('Not found', { status: 404 });
 
-    if(!postMeta) throw new Response('Not found', {status: 404});
+    const item = json.data[0] as any; // use `any` check to handle v4/v5
+    // Strapi v4: item.attributes, Strapi v5: item directly
+    const attributes = item.attributes?? item;
 
-    // Dynamically import raw narkdown
-    const markdown = await import(`../../posts/${slug}.md?raw`);
+    const imageUrl = attributes.image?.url
+       ? attributes.image.url.startsWith('http')
+           ? attributes.image.url
+            : `${baseUrl}${attributes.image.url}`
+        : '/images/no-image.png';
 
-    return{
-        postMeta,
-        markdown: markdown.default
-    }
+    const post: PostMeta = {
+        id: item.id,
+        slug: attributes.slug,
+        excerpt: attributes.excerpt,
+        title: attributes.title,
+        date: attributes.date,
+        body: attributes.body,
+        image: imageUrl,
+    };
+
+    return { post };
 }
 
-type BlogPostdetailsPageProps = {
-    loaderData: {
-        postMeta: PostMeta;
-        markdown: string;
-    }
-}
+const BlogPostdetailsPage = () => {
+    const { post } = useLoaderData() as { post: PostMeta };
 
-const BlogPostdetailsPage = ({loaderData}: BlogPostdetailsPageProps) => {
-   const {postMeta, markdown} = loaderData;
     return (
-        <div className="max-w-3xl mx-auto px-6 py-12 bg-gray-900">
+        <div className="max-w-3xl mx-auto px-6 py-12 bg-gray-900 min-h-screen">
             <h1 className="text-3xl font-bold text-blue-400 mb-2">
-                {postMeta.title}
+                {post.title}
             </h1>
-            <p className="text sm text-gray-400 mb-6">
-                {new Date(postMeta.date).toDateString()}
+            <p className="text-sm text-gray-400 mb-6">
+                {new Date(post.date).toDateString()}
             </p>
+
+            {post.image && (
+                <img src={post.image} alt={post.title} className="w-full rounded-lg mb-6 object-cover" />
+            )}
+
             <article className="prose prose-invert max-w-none">
-                <ReactMarkdown>{markdown}</ReactMarkdown>
+                <ReactMarkdown>{post.body}</ReactMarkdown>
             </article>
-            <Link to={'/blog'} className='inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition mt-4'>Back to Posts</Link>
+
+            <Link to={'/blog'} className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition mt-8">
+                Back to Posts
+            </Link>
         </div>
-    )
-}
+    );
+};
 
 export default BlogPostdetailsPage;
