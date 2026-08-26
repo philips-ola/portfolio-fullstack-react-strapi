@@ -2,25 +2,37 @@ import type { PostMeta } from "~/types";
 import { Link } from "react-router";
 
 type LatestPostsProps = {
-    posts: PostMeta[];
+    posts?: PostMeta[]; // make it optional
     limit?: number;
 }
 
-const LatestPosts = ({posts, limit = 3}:LatestPostsProps) => {
+const LatestPosts = ({ posts = [], limit = 3 }: LatestPostsProps) => {
 
-    const sortedPosts = [...posts].sort((a: PostMeta, b:PostMeta) => {
+    // guarantee array
+    if (!Array.isArray(posts) || posts.length === 0) {
+        return (
+            <section className="max-w-6xl mx-auto px-6 py-12">
+                <h2 className="text-2xl font-bold mb-6 text-white">Latest Posts</h2>
+                <p className="text-gray-400">No posts yet.</p>
+            </section>
+        );
+    }
+
+    const sortedPosts = [...posts].sort((a: PostMeta, b: PostMeta) => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
+    
     const latest = sortedPosts.slice(0, limit);
+
     return(
-        <section className="max-width-6xl mx-auto px-6 py-12">
+        <section className="max-w-6xl mx-auto px-6 py-12">
             <h2 className="text-2xl font-bold mb-6 text-white">Latest Posts</h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {latest.map((post) =>(
                 <Link 
                 key={post.slug}
                 to={`/blog/${post.slug}`} 
-                className='block p-4 border border-gray-700 rounded-lg bg-gray-800 hover:shadow-md transistion'
+                className='block p-4 border border-gray-700 rounded-lg bg-gray-800 hover:shadow-md transition'
                   >
                   <h3 className="text-lg font-semibold text-blue-400 mb-1">
                     {post.title}
