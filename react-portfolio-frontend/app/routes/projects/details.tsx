@@ -6,7 +6,7 @@ import { Link } from "react-router";
 
 export async function loader({request, params}:Route.LoaderArgs){
     const{id} = params;
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/projects?filters[documentId][$eq]=${id}&populate=*`);
+    const res = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/projects?filters[documentId][$eq]=${id}&populate=*`);
 
     if(!res.ok) throw new Response('Project not found', {status: 404});
 
