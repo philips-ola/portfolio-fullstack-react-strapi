@@ -2,7 +2,15 @@ import { Link } from 'react-router';
 
 const Hero = ({
   name = 'Philips',
-  text = ' I build friendly web experiences and help others become confident, modern developers.',
+
+
+
+  
+  text = ' Full-Stack Developer crafting fast, friendly, and accessible web experiences with React and Node.js. I help turn ideas into modern, user-focused products',
+
+
+
+
 }) => {
   return (
     <header className='text-center py-20 px-4 bg-gray-900 text-white transition-colors duration-300'>

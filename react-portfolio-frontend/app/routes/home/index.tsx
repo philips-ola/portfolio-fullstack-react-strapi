@@ -3,6 +3,7 @@ import FeatureProject from "~/components/FeatureProjects";
 import type { Project, PostMeta } from "~/types";
 import AboutPreview from "~/components/AboutPreview";
 import LatestPosts from "~/components/LatestPosts";
+import Footer from "~/components/Footer";
 
 export function meta({}: Route.MetaArgs) {
   return [
