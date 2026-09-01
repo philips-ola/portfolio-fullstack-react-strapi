@@ -25,7 +25,7 @@ const projects = json.data.map((item: any) => {
     documentId: item.documentId,
     title: item.title,
     description: item.description,
-    image: imageUrl ? `${STRAPI_URL}${imageUrl}` : '/images/no-image.png',
+    image: imageUrl ? `${imageUrl}` : '/images/no-image.png',
     url: item.url,
     date: item.date,
     category: item.category,

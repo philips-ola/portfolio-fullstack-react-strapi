@@ -31,7 +31,7 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{ posts: Po
       excerpt: item.excerpt,
       date: item.date,
       body: item.body,
-      image: imgUrl ? `${STRAPI_URL}${imgUrl}` : '/images/no-image.png',
+      image: imgUrl ? `${imgUrl}` : '/images/no-image.png',
     };
   });
 
