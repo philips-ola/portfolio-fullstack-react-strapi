@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function Footer() {
   return (
     <footer className="bg-[#0f172a] text-white">
@@ -24,31 +26,10 @@ export default function Footer() {
           <div>
             <h3 className="text-base font-semibold mb-4">Navigation</h3>
             <ul className="space-y-3">
-              <li className="mb-0">
-                <a href="/projects" className="text-sm text-gray-400 hover:text-white transition-colors">
-                  Projects
-                </a>
-              </li>
-              <li className="mb-0">
-                <a href="/about" className="text-sm text-gray-400 hover:text-white transition-colors">
-                  About
-                </a>
-              </li>
-              <li className="mb-0">
-                <a href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">
-                  Blog
-                </a>
-              </li>
-              <li className="mb-0">
-                <a href="/about" className="text-sm text-gray-400 hover:text-white transition-colors">
-                  About
-                </a>
-              </li>
-              <li className="mb-0">
-                <a href="/contact" className="text-sm text-gray-400 hover:text-white transition-colors">
-                  Contact me
-                </a>
-              </li>
+              <li><Link to="/projects" className="text-sm text-gray-400 hover:text-white transition-colors">Projects</Link></li>
+              <li><Link to="/about" className="text-sm text-gray-400 hover:text-white transition-colors">About</Link></li>
+              <li><Link to="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">Blog</Link></li>
+              <li><Link to="/contact" className="text-sm text-gray-400 hover:text-white transition-colors">Contact me</Link></li>
             </ul>
           </div>
 
@@ -58,13 +39,11 @@ export default function Footer() {
             <div className="space-y-1 text-sm text-gray-400">
               <p className="text-gray-300">Philips Ola</p>
               <p>Full-Stack Developer • React • Node.js</p>
-
             </div>
           </div>
 
         </div>
 
-        {/* Bottom */}
         <div className="mt-12 pt-6 border-t border-gray-800">
           <p className="text-center text-xs text-gray-400">
             © 2026 Philips Ola. All rights reserved.
