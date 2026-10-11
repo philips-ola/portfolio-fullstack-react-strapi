@@ -3,8 +3,7 @@ import { HiSparkles } from 'react-icons/hi';
 
 const AboutPage = () => {
   const techStack = [
-    'React', 'Next.js', 'Vue', 'Tailwind CSS', 'Node.js', 'Laravel',
-    'Prisma', 'MongoDB', 'PostgreSQL', 'Appwrite', 'Docker'
+    'React.js', 'Tailwind CSS', 'Node.js', 'Express.js', 'MongoDB', 'PostgreSQL', 'Git', 'GitHub'
   ];
 
   return (
@@ -36,9 +35,10 @@ const AboutPage = () => {
                 <span className='text-4xl animate-wave'>👋</span>
               </div>
               <p className='text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl'>
-                I'm a passionate web developer and content creator who loves
-                building friendly digital experiences and helping others grow into
-                confident, modern developers.
+               I build fast, responsive, and production-ready web apps with React, TypeScript, Tailwind CSS, and TanStack Query. I recently built and deployed 5+ live products — including SparkBox, an idea-sharing platform, and CoinTrackal, a crypto dashboard with live CoinGecko API data and Chart.js.
+              </p>
+              <p className='text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl'>
+             Former educator at Edo State Polytechnic where I mentored 50+ developers. Now focused on frontend roles where I can build clean, reusable UIs that users love.
               </p>
               
               {/* CTAs */}
@@ -79,12 +79,10 @@ const AboutPage = () => {
             <h2 className='text-2xl font-bold text-white'>My Mission</h2>
           </div>
           <p className='text-gray-300 text-lg leading-relaxed'>
-            After turning my life around, I made it my mission to share what I've
-            learned with others — not just about code, but about building a life
-            you're proud of. Through tutorials, courses, and real-world projects,
-            I aim to make development accessible, friendly, and something you look
-            forward to each day.
-          </p>
+           My mission is to build myself in public through frontend development, and build others through mentorship.
+
+        I learn by shipping real React products, I grow by sharing what I learn on YouTube, and I lift others by teaching what I know — just like I did for 50+ developers at Edo State Polytechnic. Code is better when we build it together.
+                  </p>
         </div>
 
         {/* Tech Stack */}

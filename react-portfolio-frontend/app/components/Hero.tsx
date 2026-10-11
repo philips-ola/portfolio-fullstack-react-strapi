@@ -6,7 +6,7 @@ const Hero = ({
 
 
   
-  text = ' Full-Stack Developer crafting fast, friendly, and accessible web experiences with React and Node.js. I help turn ideas into modern, user-focused products',
+  text = " I build fast, responsive, and production-ready web apps with React, TypeScript, Tailwind CSS, and TanStack Query. I recently built and deployed 5+ live products — including SparkBox, an idea-sharing platform, and CoinTrackal, a crypto dashboard with live CoinGecko API data and Chart.js.",
 
 
 
@@ -23,12 +23,12 @@ const Hero = ({
         >
           View Projects
         </Link>
-        <Link
-          to='/contact'
+        <a
+          href='/files/PhilipsOlaCV.pdf' target="_blank"
           className='border border-blue-500 text-blue-400 px-6 py-2 rounded hover:bg-blue-600 hover:text-white transition'
         >
-          Contact Me
-        </Link>
+          Download My CV
+        </a>
       </div>
     </header>
   );
