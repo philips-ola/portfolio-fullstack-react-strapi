@@ -29,6 +29,7 @@ const projects = json.data.map((item: any) => {
     url: item.url,
     date: item.date,
     category: item.category,
+    techstack: item.techstack,
     featured: item.featured,
   };
 });
@@ -79,9 +80,9 @@ const projects = json.data.map((item: any) => {
             <AnimatePresence mode="wait">
             <motion.div layout className="grid gap-6 sm:grid-cols-2">
                 {currentProject.map((project) => (
-                    <motion.div key={project.id} layout>
-                    <ProjectCard project={project} />
-                    </motion.div>
+                <motion.div key={project.id} layout>
+                <ProjectCard project={project} />
+                </motion.div>
                 ))}
             </motion.div>
             </AnimatePresence>

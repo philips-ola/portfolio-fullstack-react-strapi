@@ -72,7 +72,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 const BlogPostdetailsPage = () => {
     const { post } = useLoaderData() as { post: PostMeta };
 
-    // This is the fix - always give ReactMarkdown a STRING
+    // always give ReactMarkdown a STRING
     const markdown = Array.isArray(post.body)
      ? blocksToMarkdown(post.body)
       : (post.body as string);

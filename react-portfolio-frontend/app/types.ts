@@ -6,6 +6,8 @@ export type Project = {
     image: string;
     url: string;
     date: string;
+    github: string;
+    techstack: string;
     category: string;
     featured: boolean;
 }
@@ -39,6 +41,8 @@ export type StrapiProject = {
         },
     },
     url: string;
+    github: string;
+    techstack: string;
     date: string;
     category: string;
     featured: boolean

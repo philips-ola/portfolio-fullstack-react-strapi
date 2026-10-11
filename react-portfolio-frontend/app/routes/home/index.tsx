@@ -3,7 +3,6 @@ import FeatureProject from "~/components/FeatureProjects";
 import type { Project, PostMeta } from "~/types";
 import AboutPreview from "~/components/AboutPreview";
 import LatestPosts from "~/components/LatestPosts";
-import Footer from "~/components/Footer";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -23,9 +22,30 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{ projects:
   const baseUrl = import.meta.env.VITE_STRAPI_URL;
 
   try {
+    const projectQuery = new URLSearchParams({
+      "filters[featured][$eq]": "true",
+      populate: "image",
+      "fields[0]": "title",
+      "fields[1]": "description",
+      "fields[2]": "url",
+      "fields[3]": "date",
+      "fields[4]": "category",
+      "fields[5]": "techstack",
+      "fields[6]": "featured",
+      "pagination[pageSize]": "2",
+    });
+    const postQuery = new URLSearchParams({
+      "sort[0]": "date:desc",
+      "fields[0]": "title",
+      "fields[1]": "slug",
+      "fields[2]": "excerpt",
+      "fields[3]": "date",
+      "pagination[pageSize]": "3",
+    });
+
     const [projectRes, postRes] = await Promise.all([
-      fetch(`${baseUrl}/api/projects?filters[featured][$eq]=true&populate=*`),
-      fetch(`${baseUrl}/api/posts?sort[0]=date:desc&populate=*`),
+      fetch(`${baseUrl}/api/projects?${projectQuery}`),
+      fetch(`${baseUrl}/api/posts?${postQuery}`),
     ]);
 
     if (!projectRes.ok || !postRes.ok) {
@@ -33,8 +53,10 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{ projects:
       return { projects: [], posts: [] };
     }
 
-    const projectJson = await projectRes.json();
-    const postJson = await postRes.json();
+    const [projectJson, postJson] = await Promise.all([
+      projectRes.json(),
+      postRes.json(),
+    ]);
 
     const projectData = Array.isArray(projectJson.data) ? projectJson.data : [];
     const postData = Array.isArray(postJson.data) ? postJson.data : [];
@@ -50,6 +72,7 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{ projects:
         url: a.url,
         date: a.date,
         category: a.category,
+        techstack: a.techstack,
         featured: a.featured
       };
     });
@@ -61,8 +84,8 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{ projects:
         title: a.title,
         slug: a.slug,
         excerpt: a.excerpt,
-        body: a.body,
-        image: getImageUrl(a.image, baseUrl),
+        body: "",
+        image: "/images/no-image.png",
         date: a.date,
       };
     });
