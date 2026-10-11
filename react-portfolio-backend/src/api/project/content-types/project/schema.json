@@ -41,13 +41,18 @@
         "fullstack",
         "frontend",
         "backend",
-        "design",
-        "mobile"
+        "wordpress"
       ]
     },
     "featured": {
       "type": "boolean",
       "default": false
+    },
+    "github": {
+      "type": "string"
+    },
+    "techstack": {
+      "type": "text"
     }
   }
 }
