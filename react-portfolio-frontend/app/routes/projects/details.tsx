@@ -2,6 +2,7 @@ import type { Route } from "./+types/details";
 import type { Project, StrapiResponse, StrapiProject } from "~/types";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router";
+import ReactMarkdown from "react-markdown";
 
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -116,9 +117,9 @@ const ProductDetailPage = ({loaderData}:Route.ComponentProps) => {
             <span className="bg-gray-800 px-3 py-1 rounded-md">{new Date(project.date).toLocaleDateString()}</span>
             <span className="bg-gray-800 px-3 py-1 rounded-md">{project.category}</span> 
         </p>
-        <p className="text-gray-200 mb-6">
-           {project.description}
-        </p>
+        <article className="prose prose-invert max-w-none mb-6">
+            <ReactMarkdown>{project.description || ""}</ReactMarkdown>
+        </article>
 
         <div className="flex flex-wrap gap-2 mt-4 mb-6">
             {project.techstack?.split(',').map((t, index) => {

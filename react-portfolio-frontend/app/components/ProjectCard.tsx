@@ -29,7 +29,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
                         {project.techstack?.split(',').map((t, index) => {
                             if (!t.trim()) return null; 
                             return (
-                                <span key={index} className="bg-gray-600 px-3 py-1 text-[12px] text-gray-200 rounded-md">
+                                <span key={index} className="bg-gray-700 px-3 py-1 text-[12px] text-gray-200 rounded-md">
                                     {t.trim()}
                                 </span>
                             )
