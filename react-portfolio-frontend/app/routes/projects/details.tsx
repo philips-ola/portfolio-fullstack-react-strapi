@@ -4,54 +4,91 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router";
 
 
-export async function loader({request, params}:Route.LoaderArgs){
-    const{id} = params;
+export async function loader({ params }: Route.LoaderArgs) {
+  const { id } = params;
+  const strapiUrl = import.meta.env.VITE_STRAPI_URL;
 
+  if (!strapiUrl) {
+    throw new Response("Project service is not configured", {
+      status: 503,
+      statusText: "Project service unavailable",
+    });
+  }
 
-    const query = new URLSearchParams({
-  "filters[documentId][$eq]": id,
-  populate: "image",
-  "fields[0]": "title",
-  "fields[1]": "description",
-  "fields[2]": "url",
-  "fields[3]": "github",
-  "fields[4]": "techstack",
-  "fields[5]": "date",
-  "fields[6]": "category",
-});
+  const query = new URLSearchParams({
+    "filters[documentId][$eq]": id,
+    populate: "*",
+  });
 
-const res = await fetch(
-  `${import.meta.env.VITE_STRAPI_URL}/api/projects?${query}`
-);
+  let res: Response;
+  try {
+    res = await fetch(`${strapiUrl}/api/projects?${query}`);
+  } catch (error) {
+    console.error("Unable to reach Strapi while loading project", error);
+    throw new Response("Unable to reach the project service", {
+      status: 502,
+      statusText: "Project service unavailable",
+    });
+  }
 
-if (!res.ok) {
-  throw new Response("Unable to load project", { status: res.status });
+  if (!res.ok) {
+    console.error(`Strapi project detail fetch failed: ${res.status}`);
+    throw new Response("Unable to load project", {
+      status: res.status,
+      statusText: "Unable to load project",
+    });
+  }
+
+  let json: StrapiResponse<StrapiProject & { attributes?: StrapiProject }>;
+  try {
+    json = await res.json();
+  } catch (error) {
+    console.error("Unable to parse Strapi project response", error);
+    throw new Response("Invalid response from the project service", {
+      status: 502,
+      statusText: "Invalid project service response",
+    });
+  }
+
+  if (!Array.isArray(json.data)) {
+    console.error("Strapi project response did not contain a data array");
+    throw new Response("Invalid response from the project service", {
+      status: 502,
+      statusText: "Invalid project service response",
+    });
+  }
+
+  const item = json.data[0];
+  if (!item) {
+    throw new Response("Project not found", {
+      status: 404,
+      statusText: "Project not found",
+    });
+  }
+
+  const projectData = item.attributes ?? item;
+  const image = projectData.image as StrapiProject["image"] & {
+    data?: { url?: string; attributes?: { url?: string } };
+  };
+  const imageUrl =
+    image?.url || image?.data?.url || image?.data?.attributes?.url;
+
+  const project: Project = {
+    id: item.id,
+    documentId: item.documentId,
+    title: projectData.title,
+    description: projectData.description,
+    image: imageUrl || "/images/no-image.png",
+    url: projectData.url,
+    github: projectData.github,
+    techstack: projectData.techstack,
+    date: projectData.date,
+    category: projectData.category,
+    featured: projectData.featured,
+  };
+
+  return { project };
 }
-
-const json: StrapiResponse<StrapiProject> = await res.json();
-const item = json.data[0];
-
-if (!item) {
-  throw new Response("Project not found", { status: 404 });
-}
-
-
-    const project:Project = {
-        id: item.id,
-        documentId: item.documentId,
-        title: item.title,
-        description: item.description,
-        image: item.image?.url? `${item.image?.url}` : '/images/no-image.png',
-        url: item.url,
-        github: item.github,
-        techstack: item.techstack,
-        date :item.date,
-         category: item.category,
-         featured: item.featured
-    }
-    return {project};
-
-}   
 
 const ProductDetailPage = ({loaderData}:Route.ComponentProps) => {
     const {project} = loaderData;
