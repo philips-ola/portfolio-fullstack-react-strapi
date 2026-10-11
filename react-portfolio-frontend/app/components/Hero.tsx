@@ -24,7 +24,7 @@ const Hero = ({
           View Projects
         </Link>
         <a
-          href='/files/PhilipsOlaCV.pdf' target="_blank"
+          href='/files/PhilipsOlaCv.pdf' target="_blank"
           className='border border-blue-500 text-blue-400 px-6 py-2 rounded hover:bg-blue-600 hover:text-white transition'
         >
           Download My CV
