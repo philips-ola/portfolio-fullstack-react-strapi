@@ -24,7 +24,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
                     <p className="text-sm text-gray-300 mb-2">
                         {project.description?.split('.')[0] || ""}
                     </p>
-                    
+
                     <div className="flex flex-wrap gap-2 mt-4 mb-6">
                         {project.techstack?.split(',').map((t, index) => {
                             if (!t.trim()) return null; 
