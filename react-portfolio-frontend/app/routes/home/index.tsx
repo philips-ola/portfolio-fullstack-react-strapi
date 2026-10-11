@@ -24,6 +24,7 @@ export async function loader({ request }: Route.LoaderArgs): Promise<{ projects:
   const projectQuery = new URLSearchParams({
     "filters[featured][$eq]": "true",
     populate: "*",
+    "sort[0]": "date:desc",
     "pagination[pageSize]": "2",
   });
   const postQuery = new URLSearchParams({

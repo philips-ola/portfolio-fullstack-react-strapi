@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 
 export async function loader({ request }:Route.LoaderArgs):Promise<{projects: Project[]}> {
-    const res = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/projects?populate=*`);
+    const res = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/projects?populate=*&sort[0]=date:desc`);
     const json:StrapiResponse<StrapiProject> = await res.json();
    const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
 
