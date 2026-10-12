@@ -30,7 +30,7 @@ const AboutPage = () => {
             <div>
               <div className='flex items-center gap-3 mb-3'>
                 <h1 className='text-4xl md:text-5xl font-bold text-white'>
-                  Hey, I'm Philips
+                 I'm Philips
                 </h1>
                 <span className='text-4xl animate-wave'>👋</span>
               </div>
