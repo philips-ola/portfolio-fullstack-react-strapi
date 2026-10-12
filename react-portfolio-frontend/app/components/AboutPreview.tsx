@@ -11,7 +11,7 @@ const AboutPreview = () => {
       <div>
         <h2 className='text-2xl font-bold text-white mb-2'>👋 About Me</h2>
         <p className='text-gray-200 mb-4 max-w 4xl'>
-          I’m Philips — a self-taught developer and educator passionate about
+          A modern developer and educator, passionate about
           building friendly digital experiences and helping others grow into
           confident modern devs.
         </p>
