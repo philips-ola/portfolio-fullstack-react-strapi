@@ -7,7 +7,7 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className='min-h-screen bg-gray-950 text-gray-200 px-6 py-20'>
+    <div className='min-h-screen bg-gray-950 text-gray-200 py-10'>
       <div className='max-w-6xl mx-auto'>
         
         {/* Hero Section - Glass Card */}

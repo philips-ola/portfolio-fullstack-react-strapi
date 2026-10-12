@@ -54,7 +54,7 @@ const ContactPage = ({}: Route.ComponentProps) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-12 px-12 py-8 bg-gray-900">
+    <div className="max-w-2xl mx-auto mt-12 px-10 py-8 bg-gray-900">
       <h2 className="text-3xl font-bold mb-8 text-center">Contact Me</h2>
 
       {successMessage ? (

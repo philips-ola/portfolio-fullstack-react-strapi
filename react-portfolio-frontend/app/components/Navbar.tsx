@@ -34,12 +34,14 @@ const Navbar = () => {
             {/* Mobile Nav */}
             {
                 menuOpen && (
-                    <div className="md:hidden bg-gray-800 border-t border-gray-700 px-6 py-4 space-y-2 space-x-4 text-center">
-                    <NavLink onClick={() => setmenuOpen(false)} className={({isActive}) => isActive? active : base} to='/'>Home</NavLink>
-                    <NavLink onClick={() => setmenuOpen(false)}  className={({isActive}) => isActive? active : base} to='projects'>Projects</NavLink>
-                    <NavLink onClick={() => setmenuOpen(false)}  className={({isActive}) => isActive? active : base} to='about'>About Me</NavLink>
-                    <NavLink onClick={() => setmenuOpen(false)}  className={({isActive}) => isActive? active : base} to='blog'>Blog</NavLink>
-                    <NavLink className={({isActive}) => isActive? active : base} to='contact'>Contact Me</NavLink>
+                    <div className="md:hidden bg-gray-800 border-t border-gray-700 px-6 py-4 space-y-2 space-x-4 ml-6 ">
+                        <ul>
+                    <li><NavLink onClick={() => setmenuOpen(false)} className={({isActive}) => isActive? active : base} to='/'>Home</NavLink></li>
+                    <li><NavLink onClick={() => setmenuOpen(false)}  className={({isActive}) => isActive? active : base} to='projects'>Projects</NavLink></li>
+                    <li><NavLink onClick={() => setmenuOpen(false)}  className={({isActive}) => isActive? active : base} to='about'>About Me</NavLink></li>
+                    <li><NavLink onClick={() => setmenuOpen(false)}  className={({isActive}) => isActive? active : base} to='blog'>Blog</NavLink></li>
+                    <li><NavLink className={({isActive}) => isActive? active : base} to='contact'>Contact Me</NavLink></li>
+                    </ul>
                     </div>
                 )
             }
